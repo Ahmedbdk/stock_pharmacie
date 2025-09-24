@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Pharmacie</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        form { max-width: 500px; margin: auto; }
+        label { display: block; margin-top: 15px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 20px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>Inscription d'une pharmacie</h1>
+
+    <form id="formPharmacie" action="register_pharmacie.php" method="POST">
+        <label for="nom">Nom de la pharmacie *</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="adresse">Adresse *</label>
+        <input type="text" id="adresse" name="adresse" required>
+
+        <label for="nb_collaborateurs">Nombre de collaborateurs</label>
+        <input type="number" id="nb_collaborateurs" name="nb_collaborateurs" min="0">
+
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="telephone">Téléphone *</label>
+        <input type="tel" id="telephone" name="telephone" required pattern="[\d\s+-]{8,15}" 
+               title="Format valide : chiffres, espaces, + ou -">
+
+        <label for="contact">Personne de contact</label>
+        <input type="text" id="contact" name="contact">
+
+        <label for="date_inscription">Date d'inscription</label>
+        <input type="date" id="date_inscription" name="date_inscription">
+
+        <label for="date_validite">Date de validité</label>
+        <input type="date" id="date_validite" name="date_validite">
+
+        <button type="submit">S'inscrire</button>
+    </form>
+</body>
+</html>
