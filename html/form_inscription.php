@@ -26,6 +26,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_inscription = date("Y-m-d");
     $date_validite = !empty($_POST['date_validite']) ? $_POST['date_validite'] : null;
 
+    // Vérifier si le nom existe déjà
+    $nom_check = $conn->prepare("SELECT id FROM pharmacies WHERE nom = ?");
+    $nom_check->bind_param("s", $nom);
+    $nom_check->execute();
+    $nom_check_result = $nom_check->get_result();
+
+    if ($nom_check_result->num_rows > 0) {
+        die("<p style='color:red;'>Erreur : ce nom est déjà utilisé ❌</p>");
+    }
+    $nom_check->close();
+
+    // Vérifier si l'adresse' existe déjà
+    $adresse_check = $conn->prepare("SELECT id FROM pharmacies WHERE adresse = ?");
+    $adresse_check->bind_param("s", $adresse);
+    $adresse_check->execute();
+    $adresse_check_result = $adresse_check->get_result();
+
+    if ($adresse_check_result->num_rows > 0) {
+        die("<p style='color:red;'>Erreur : cette adresse est déjà utilisé ❌</p>");
+    }
+    $adresse_check->close();
+
+    // Vérifier si le numéro de téléphone  existe déjà
+    $telephone_check = $conn->prepare("SELECT id FROM pharmacies WHERE telephone = ?");
+    $telephone_check->bind_param("s", $telephone);
+    $telephone_check->execute();
+    $telephone_check_result = $telephone_check->get_result();
+
+    if ($telephone_check_result->num_rows > 0) {
+        die("<p style='color:red;'>Erreur : ce numéro de téléphone est déjà utilisé ❌</p>");
+    }
+    $telephone_check->close();
+
     // Vérifier si l'email existe déjà
     $email_check = $conn->prepare("SELECT id FROM pharmacies WHERE email = ?");
     $email_check->bind_param("s", $email);
