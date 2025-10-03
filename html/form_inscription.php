@@ -27,9 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_validite = !empty($_POST['date_validite']) ? $_POST['date_validite'] : null;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 <<<<<<< HEAD
+    // Vérifier si l'email existe déjà
+=======
+<<<<<<< HEAD
+>>>>>>> c9512eacf1c8fe1343e3f03ecd3d3d640d049829
+=======
     // Vérifier si l'email existe déjà
 =======
 <<<<<<< HEAD
@@ -74,6 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 =======
 >>>>>>> b827b1e455ab52c1429be137ed20c5d11e55bccb
 >>>>>>> 19b40224b0a60e20d7d68ac4b3a9d9b320eaac4c
+<<<<<<< HEAD
+>>>>>>> c9512eacf1c8fe1343e3f03ecd3d3d640d049829
+=======
 >>>>>>> c9512eacf1c8fe1343e3f03ecd3d3d640d049829
     $email_check = $conn->prepare("SELECT id FROM pharmacies WHERE email = ?");
     $email_check->bind_param("s", $email);
