@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_inscription = date("Y-m-d");
     $date_validite = !empty($_POST['date_validite']) ? $_POST['date_validite'] : null;
 
-    // Vérifier si l'email existe déjà 
+    // Vérifier si l'email existe déjà
     $email_check = $conn->prepare("SELECT id FROM pharmacies WHERE email = ?");
     $email_check->bind_param("s", $email);
     $email_check->execute();
