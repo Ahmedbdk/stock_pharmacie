@@ -19,22 +19,92 @@
             <label for="mdp">Mot de passe :</label>
             <input type="password" id="mdp" name="mdp" required>
 
-            <button type="submit">S'inscrire</button>
-        </form>
+        <button type="submit">S'inscrire</button>
+    </form>
 
-        <p id="message"></p>
-    </div>
+    <p id="message"></p>
 
     <script>
         const form = document.getElementById("formInscription");
         const message = document.getElementById("message");
 
-        form.addEventListener("submit", function(event) {
-            event.preventDefault(); // empêche le rechargement de la page
-            message.textContent = "Inscription réussie ✅ (test)";
-            message.style.color = "green";
-        });
-    </script>
+    function ajouterTroisSemaines(date) {
+      return new Date(date.getTime() + 21 * 24 * 60 * 60 * 1000);
+    }
+
+    let user = JSON.parse(localStorage.getItem("user")) || null;
+
+
+    formInscription.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const nom = document.getElementById("nom").value;
+      const email = document.getElementById("email").value;
+      const mdp = document.getElementById("mdp").value;
+      const creationDate = new Date();
+      const validUntil = ajouterTroisSemaines(creationDate);
+
+      user = {
+        nom,
+        email,
+        mdp,
+        creationDate,
+        validUntil,
+        blocked: false
+      };
+
+      // Sauvegarde dans le localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+
+      message.textContent = "Inscription réussie ✅ (valide jusqu’au " + validUntil.toLocaleDateString() + ")";
+      message.style.color = "green";
+    });
+
+    // --- CONNEXION ---
+    formConnexion.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      if (!user) {
+        message.textContent = "Aucun compte trouvé. Veuillez vous inscrire.";
+        message.style.color = "red";
+        return;
+      }
+
+      const email = document.getElementById("emailConnexion").value;
+      const mdp = document.getElementById("MdpConnexion").value;
+
+      // Vérification du blocage
+      if (user.blocked) {
+        message.textContent = "Compte bloqué, veuillez contacter un membre du support.";
+        message.style.color = "red";
+        return;
+      }
+
+      // Vérification des identifiants
+      if (email === user.email && mdp === user.mdp) {
+        const now = new Date();
+
+        // Si la validité est dépassée → blocage
+        if (now > new Date(user.validUntil)) {
+          user.blocked = true;
+          localStorage.setItem("user", JSON.stringify(user));
+          message.textContent = "Compte bloqué, veuillez contacter un membre du support.";
+          message.style.color = "red";
+          return;
+        }
+
+        // Connexion réussie → prolonger la validité
+        user.validUntil = ajouterTroisSemaines(now);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        message.textContent = "Connexion réussie ✅ Nouvelle validité : " + new Date(user.validUntil).toLocaleDateString();
+        message.style.color = "green";
+      } else {
+        message.textContent = "Identifiants incorrects ❌";
+        message.style.color = "red";
+      }
+    });
+  </script>
 </body>
 </html>
 
