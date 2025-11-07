@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion des Produits</title>
+  
+</head>
+<body>
+  <h1>Produits</h1>
+
+    <div class="toolbar">
+    <input type="text" id="searchNom" placeholder="Rechercher par nom">
+    <button onclick="rechercherProduit()">Rechercher</button>
+
+    <select id="categorieSelect">
+      <option value="">Toutes catégories</option>
+      <option value="parapharmacie">Parapharmacie</option>
+      <option value="antibiotique">Antibiotique</option>
+      <option value="vitamine">Vitamine</option>
+      <option value="Nutrition">Nutrition</option>
+    </select>
+    <button onclick="filtrerCategorie()">Filtrer</button>
+
+    <button onclick="afficherMinStock()">Produit min stock</button>
+    <button onclick="afficherMaxStock()">Produit max stock</button>
+  </div>
+  
+
+  <!-- Tableau -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Catégorie</th>
+        <th>Stock</th>
+        <th>Prix (€)</th>
+        <th>Date de Péremption</th>
+      </tr>
+    </thead>
+    <tbody id="produitsTable"></tbody>
+  </table>
+
+  <script>
+    
+    const produits = [
+  { id: 1, nom: "Doliprane",   categorie: "Nutrition", datePeremption: "2026-05-10", stock: 120, prix: 2.5 },
+  { id: 2, nom: "Dafalgan", categorie: "Nutrition", datePeremption: "2026-07-15", stock: 80, prix: 3.0 },
+  { id: 3, nom: "Efferalgan", categorie: "Nutrition", datePeremption: "2026-09-01", stock: 150, prix: 2.8 },
+  { id: 4, nom: "Advil", categorie: "Nutrition", datePeremption: "2027-01-20", stock: 90, prix: 4.2 },
+  { id: 5, nom: "Nurofen", categorie: "Nutrition", datePeremption: "2026-11-11", stock: 70, prix: 4.5 },
+  { id: 6, nom: "Spasfon", categorie: "Nutrition", datePeremption: "2027-02-28", stock: 100, prix: 3.5 },
+  { id: 7, nom: "Kardegic", categorie: "Nutrition", datePeremption: "2026-12-30", stock: 60, prix: 5.0 },
+  { id: 8, nom: "Plavix", categorie: "Nutrition", datePeremption: "2027-05-05", stock: 40, prix: 12.0 },
+  { id: 9, nom: "Levothyrox", categorie: "Nutrition", datePeremption: "2026-10-14", stock: 110, prix: 8.5 },
+  { id: 10, nom: "Tahor", categorie: "Nutrition", datePeremption: "2027-03-09", stock: 50, prix: 15.0 },
+
+  // --- Catégorie 2 : Parapharmacie ---
+  { id: 11, nom: "Bion 3", categorie: "Parapharmacie", datePeremption: "2026-06-18", stock: 50, prix: 9.9 },
+  { id: 12, nom: "Arkovital", categorie: "Parapharmacie", datePeremption: "2026-09-12", stock: 75, prix: 11.5 },
+  { id: 13, nom: "Mag 2", categorie: "Parapharmacie", datePeremption: "2026-12-01", stock: 100, prix: 7.8 },
+  { id: 14, nom: "Berocca", categorie: "Parapharmacie", datePeremption: "2027-04-10", stock: 65, prix: 13.0 },
+  { id: 15, nom: "Juvamine", categorie: "Parapharmacie", datePeremption: "2026-08-05", stock: 120, prix: 6.5 },
+  { id: 16, nom: "Oenobiol", categorie: "Parapharmacie", datePeremption: "2027-02-22", stock: 80, prix: 18.0 },
+  { id: 17, nom: "Forté Pharma Vitalité", categorie: "Parapharmacie", datePeremption: "2026-11-03", stock: 40, prix: 14.2 },
+  { id: 18, nom: "Solgar Vitamine C", categorie: "Parapharmacie", datePeremption: "2027-06-15", stock: 30, prix: 22.0 },
+  { id: 19, nom: "Phytostandard", categorie: "Parapharmacie", datePeremption: "2026-09-29", stock: 55, prix: 19.5 },
+  { id: 20, nom: "Nutergia Ergymag", categorie: "Parapharmacie", datePeremption: "2027-01-19", stock: 90, prix: 16.5 },
+
+  // --- Catégorie 3 : Professionnels de santé ---
+  { id: 21, nom: "Gants stériles", categorie: "Professionnels de santé", datePeremption: "2027-05-01", stock: 500, prix: 0.5 },
+  { id: 22, nom: "Masques chirurgicaux", categorie: "Professionnels de santé", datePeremption: "2027-03-20", stock: 1000, prix: 0.3 },
+  { id: 23, nom: "Stéthoscope", categorie: "Professionnels de santé", datePeremption: "2030-12-31", stock: 50, prix: 35.0 },
+  { id: 24, nom: "Tensiomètre", categorie: "Professionnels de santé", datePeremption: "2030-12-31", stock: 40, prix: 45.0 },
+  { id: 25, nom: "Thermomètre médical", categorie: "Professionnels de santé", datePeremption: "2030-12-31", stock: 80, prix: 8.0 },
+  { id: 26, nom: "Désinfectant", categorie: "Professionnels de santé", datePeremption: "2027-11-30", stock: 300, prix: 5.0 },
+  { id: 27, nom: "Bandages", categorie: "Professionnels de santé", datePeremption: "2028-01-08", stock: 200, prix: 1.2 },
+  { id: 28, nom: "Seringues", categorie: "Professionnels de santé", datePeremption: "2027-09-21", stock: 400, prix: 0.8 },
+  { id: 29, nom: "Blouses médicales", categorie: "Professionnels de santé", datePeremption: "2030-04-07", stock: 150, prix: 20.0 },
+  { id: 30, nom: "Solution hydroalcoolique", categorie: "Professionnels de santé", datePeremption: "2027-08-16", stock: 250, prix: 3.0 },
+
+  // --- Catégorie 4 : Automédication ---
+  { id: 31, nom: "Dolko", categorie: "Automédication", datePeremption: "2026-06-01", stock: 95, prix: 2.2 },
+  { id: 32, nom: "Gaviscon", categorie: "Automédication", datePeremption: "2026-09-19", stock: 85, prix: 6.0 },
+  { id: 33, nom: "Imodium", categorie: "Automédication", datePeremption: "2026-12-12", stock: 70, prix: 5.5 },
+  { id: 34, nom: "Smecta", categorie: "Automédication", datePeremption: "2026-10-05", stock: 60, prix: 3.8 },
+  { id: 35, nom: "Mopralpro", categorie: "Automédication", datePeremption: "2027-03-15", stock: 90, prix: 9.0 },
+  { id: 36, nom: "Vogalib", categorie: "Automédication", datePeremption: "2027-01-23", stock: 45, prix: 4.0 },
+  { id: 37, nom: "Lysopaïne", categorie: "Automédication", datePeremption: "2026-11-14", stock: 100, prix: 3.5 },
+  { id: 38, nom: "Drill", categorie: "Automédication", datePeremption: "2027-02-02", stock: 55, prix: 4.2 },
+  { id: 39, nom: "Strepsils", categorie: "Automédication", datePeremption: "2026-07-28", stock: 65, prix: 3.9 },
+  { id: 40, nom: "Rhinadvil", categorie: "Automédication", datePeremption: "2027-04-18", stock: 75, prix: 7.5 }
+
+
+    ];
+
+    const tableBody = document.getElementById("produitsTable");
+
+    function afficherProduits(liste) {
+      tableBody.innerHTML = "";
+      liste.forEach(p => {
+        tableBody.innerHTML += `
+          <tr>
+            <td>${p.id}</td>
+            <td>${p.nom}</td>
+            <td>${p.categorie}</td>
+            <td>${p.stock}</td>
+            <td>${p.prix} €</td>
+            <td>${p.datePeremption}</td>
+
+
+          </tr>`;
+      });
+    }
+
+    function rechercherProduit() {
+      const nom = document.getElementById("searchNom").value.toLowerCase();
+      if (nom === "") {
+        afficherProduits(produits);
+      } else {
+        const result = produits.find(p => p.nom.toLowerCase() === nom);
+        afficherProduits(result ? [result] : []);
+      }
+    }
+
+    function filtrerCategorie() {
+      const cat = document.getElementById("categorieSelect").value.toLowerCase();
+      if (cat === "") {
+        afficherProduits(produits);
+      } else {
+        const result = produits.filter(p => p.categorie.toLowerCase() === cat);
+        afficherProduits(result);
+      }
+    }
+
+    function afficherMinStock() {
+      const min = produits.reduce((a, b) => a.stock < b.stock ? a : b);
+      afficherProduits([min]);
+    }
+
+    function afficherMaxStock() {
+      const max = produits.reduce((a, b) => a.stock > b.stock ? a : b);
+      afficherProduits([max]);
+    }
+
+    
+    afficherProduits(produits);
+  </script>
+</body>
+</html>
