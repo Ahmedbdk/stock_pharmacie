@@ -8,6 +8,7 @@
   <body>
     <main class="login-container">
       <h1>Connexion</h1>
+
       <form id="formConnexion">
         <label for="email">Email *</label>
         <input
@@ -52,9 +53,6 @@
       
       const user = JSON.parse(localStorage.getItem("user"));
 
-  
-
-      
       formConnexion.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -75,12 +73,12 @@
           return;
         }
 
-        
+       
         if (email === user.email && mdp === user.mdp) {
           const now = new Date();
           const validUntil = new Date(user.validUntil);
 
-         
+          
           if (now > validUntil) {
             user.blocked = true;
             localStorage.setItem("user", JSON.stringify(user));
@@ -95,11 +93,13 @@
           localStorage.setItem("user", JSON.stringify(user));
 
           message.textContent =
-            "Connexion réussie  Nouvelle validité : " +
+            "Connexion réussie ✅ Nouvelle validité : " +
             new Date(user.validUntil).toLocaleDateString();
           message.style.color = "green";
+
+          
         } else {
-          message.textContent = "Identifiants incorrects ";
+          message.textContent = "Identifiants incorrects ❌";
           message.style.color = "red";
         }
       });
