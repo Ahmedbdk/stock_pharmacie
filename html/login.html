@@ -52,11 +52,7 @@
       
       const user = JSON.parse(localStorage.getItem("user"));
 
-      
-      if (!user) {
-        message.textContent = "Aucun compte trouvé. Veuillez vous inscrire.";
-        message.style.color = "red";
-      }
+  
 
       
       formConnexion.addEventListener("submit", function (event) {
