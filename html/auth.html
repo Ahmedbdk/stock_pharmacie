@@ -3,38 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Test Inscription</title>
+    <link rel="stylesheet" href="../css/auth.css">
 </head>
 <body>
-    <h1>Formulaire d'inscription (test)</h1>
+    <div class="form-container">
+        <h1>Formulaire d'inscription (test)</h1>
 
-    <form id="formInscription">
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" required><br><br>
+        <form id="formInscription">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" required>
 
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required><br><br>
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
 
-        <label for="mdp">Mot de passe :</label>
-        <input type="password" id="mdp" name="mdp" required><br><br>
+            <label for="mdp">Mot de passe :</label>
+            <input type="password" id="mdp" name="mdp" required>
 
         <button type="submit">S'inscrire</button>
     </form>
-<form id="formConnexion">
-    <h3>Connexion</h3>
-    <label for="emailConnexion">Email :</label>
-    <input type="email" id ="emailConnexion" name="emailConnexion" required><br><br>
-
-    <label  for="MdpConnexion">Mot de passe </label>
-    <input type="Mdp" id ="MdpConnexion" name ="MdpConnexion" required><br><br>
-
-    <button type="submit">Connexion</button>
-</form>
 
     <p id="message"></p>
-<script>
-    const formInscription = document.getElementById("formInscription");
-    const formConnexion = document.getElementById("formConnexion");
-    const message = document.getElementById("message");
+
+    <script>
+        const form = document.getElementById("formInscription");
+        const message = document.getElementById("message");
 
     function ajouterTroisSemaines(date) {
       return new Date(date.getTime() + 21 * 24 * 60 * 60 * 1000);
@@ -114,4 +106,6 @@
     });
   </script>
 </body>
+</html>
+
 </html>

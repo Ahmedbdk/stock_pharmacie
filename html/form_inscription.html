@@ -1,37 +1,73 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Inscription Pharmacie</title>
-</head>
-<body>
-    <h1>Inscription d'une pharmacie</h1>
-
-    <form action="form_inscription.php" method="POST">
+    <link rel="stylesheet" href="../css/form_inscription.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Inscription Pharmacie</h1>
+      <form action="form_inscription.php" method="POST">
         <label for="nom">Nom de la pharmacie *</label>
-        <input type="text" id="nom" name="nom" required><br><br>
+        <input
+          type="text"
+          id="nom"
+          name="nom"
+          placeholder="Ex : Pharmacie Centrale"
+          required
+        />
 
         <label for="adresse">Adresse *</label>
-        <input type="text" id="adresse" name="adresse" required><br><br>
+        <input
+          type="text"
+          id="adresse"
+          name="adresse"
+          placeholder="Ex : 10 rue de la Santé, Paris"
+          required
+        />
 
         <label for="nb_collaborateurs">Nombre de collaborateurs</label>
-        <input type="number" id="nb_collaborateurs" name="nb_collaborateurs"><br><br>
+        <input
+          type="number"
+          id="nb_collaborateurs"
+          name="nb_collaborateurs"
+          placeholder="Ex : 5"
+        />
 
         <label for="email">Email *</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="exemple@mail.com"
+          required
+        />
 
         <label for="telephone">Téléphone *</label>
-        <input type="tel" id="telephone" name="telephone" required><br><br>
+        <input
+          type="tel"
+          id="telephone"
+          name="telephone"
+          placeholder="06 12 34 56 78"
+          required
+        />
 
         <label for="contact">Personne de contact</label>
-        <input type="text" id="contact" name="contact"><br><br>
+        <input
+          type="text"
+          id="contact"
+          name="contact"
+          placeholder="Ex : M. Dupont"
+        />
 
         <label for="date_validite">Date de validité</label>
-        <input type="date" id="date_validite" name="date_validite"><br><br>
+        <input type="date" id="date_validite" name="date_validite" />
 
         <button type="submit">S'inscrire</button>
-    </form>
+      </form>
 
-    <p>Déjà inscrit ? <a href="login.html">Login</a></p>
-</body>
+      <p>Déjà inscrit ? <a href="login.html">Se connecter</a></p>
+    </div>
+  </body>
 </html>
