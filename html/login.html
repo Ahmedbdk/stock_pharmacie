@@ -8,7 +8,7 @@
   <body>
     <main class="login-container">
       <h1>Connexion</h1>
-      <form action="login.php" method="POST">
+      <form id="formConnexion">
         <label for="email">Email *</label>
         <input
           type="email"
@@ -31,10 +31,84 @@
         <button type="submit">Se connecter</button>
       </form>
 
-      <!-- 🔹 Lien mot de passe oublié -->
-      <p><a href="forgot_password.html">Mot de passe oublié ?</a></p>
+      <p id="message"></p>
 
+      <p><a href="forgot_password.html">Mot de passe oublié ?</a></p>
       <p>Pas encore inscrit ? <a href="form_inscription.html">S'inscrire</a></p>
     </main>
+
+    <script>
+      
+      function ajouterTroisSemaines(date) {
+        const nouvelleDate = new Date(date);
+        nouvelleDate.setDate(nouvelleDate.getDate() + 21);
+        return nouvelleDate;
+      }
+
+      
+      const formConnexion = document.getElementById("formConnexion");
+      const message = document.getElementById("message");
+
+      
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      
+      if (!user) {
+        message.textContent = "Aucun compte trouvé. Veuillez vous inscrire.";
+        message.style.color = "red";
+      }
+
+      
+      formConnexion.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!user) {
+          message.textContent = "Aucun compte trouvé. Veuillez vous inscrire.";
+          message.style.color = "red";
+          return;
+        }
+
+        const email = document.getElementById("email").value;
+        const mdp = document.getElementById("password").value;
+
+        
+        if (user.blocked) {
+          message.textContent =
+            "Compte bloqué, veuillez contacter un membre du support.";
+          message.style.color = "red";
+          return;
+        }
+
+        
+        if (email === user.email && mdp === user.mdp) {
+          const now = new Date();
+          const validUntil = new Date(user.validUntil);
+
+         
+          if (now > validUntil) {
+            user.blocked = true;
+            localStorage.setItem("user", JSON.stringify(user));
+            message.textContent =
+              "Compte bloqué, veuillez contacter un membre du support.";
+            message.style.color = "red";
+            return;
+          }
+
+          
+          user.validUntil = ajouterTroisSemaines(now);
+          localStorage.setItem("user", JSON.stringify(user));
+
+          message.textContent =
+            "Connexion réussie  Nouvelle validité : " +
+            new Date(user.validUntil).toLocaleDateString();
+          message.style.color = "green";
+        } else {
+          message.textContent = "Identifiants incorrects ";
+          message.style.color = "red";
+        }
+      });
+
+      
+    </script>
   </body>
 </html>
