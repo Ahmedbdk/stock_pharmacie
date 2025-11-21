@@ -89,14 +89,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     6️⃣ Afficher le résultat final
     ------------------------------------------
     */
-    echo "<main class='login-container'>
-            <h2>Mot de passe réinitialisé ✔</h2>
-            <p>Voici votre nouveau mot de passe :</p>
-            <h1 style='color:green;'>$new_pass</h1>
-            <p>Veuillez vous connecter avec ce nouveau code.</p>
-            <a href='login.html'>➡ Se connecter</a>
-          </main>";
-    exit();
+   echo "<main class='login-container'>
+        <h2>Mot de passe réinitialisé ✔</h2>
+        <p>Voici votre nouveau mot de passe :</p>
+        <h1 style='color:green;'>$new_pass</h1>
+        <p>Veuillez vous connecter avec ce nouveau code.</p>
+        <a href='login.php'>➡ Se connecter</a>
+      </main>";
 }
 ?>
 
