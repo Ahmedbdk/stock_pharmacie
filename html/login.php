@@ -12,8 +12,9 @@ if ($conn->connect_error) {
     die("Erreur connexion BDD : " . $conn->connect_error);
 }
 
-// Vérifier envoi formulaire
+// Vérifier formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $email = $_POST['email'];
     $password_input = $_POST['password'];
 
@@ -23,21 +24,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // Email trouvé ?
     if ($result->num_rows === 1) {
+
         $user = $result->fetch_assoc();
 
-        // Vérifier mot de passe
+        // Vérifier le mot de passe
         if (password_verify($password_input, $user['password'])) {
-            // Connexion réussie
+
+            // Stocker en session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['nom'] = $user['nom'];
 
-            echo "<h2>Bienvenue, " . htmlspecialchars($user['nom']) . " 🎉</h2>";
-            echo "<p>Connexion réussie ✅</p>";
-            echo "<a href='dashboard.php'>Aller au tableau de bord</a>";
+            // 🔥 REDIRECTION AUTOMATIQUE VERS LE DASHBOARD
+            header("Location: dashboard.php");
+            exit();
+
         } else {
             echo "<p style='color:red;'>Mot de passe incorrect ❌</p>";
         }
+
     } else {
         echo "<p style='color:red;'>Email non trouvé ❌</p>";
     }
