@@ -1,0 +1,111 @@
+/* ========== Layout global ========== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #333;
+}
+
+/* Conteneur principal (optionnel si tu veux centrer la page) */
+main {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Titre */
+h1 {
+  text-align: center;
+  margin: 30px 0 20px;
+  font-size: 2rem;
+  color: #264653;
+}
+
+/* ========== Toolbar ========== */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px auto 20px;
+  max-width: 1100px;
+  justify-content: center;
+}
+
+.toolbar input[type="text"],
+.toolbar select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 200px;
+  font-size: 0.95rem;
+}
+
+.toolbar button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #2a9d8f;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toolbar button:hover {
+  background: #21867a;
+}
+
+/* ========== Tableau ========== */
+table {
+  border-collapse: collapse;
+  width: 90%;
+  margin: 0 auto 40px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead {
+  background: #264653;
+  color: white;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+tbody tr:nth-child(even) {
+  background: #f2f6f7;
+}
+
+tbody tr:hover {
+  background: #e9f5f4;
+}
+
+/* Colonnes numériques alignées à droite */
+td:nth-child(4),
+td:nth-child(5) {
+  text-align: right;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+  table {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar input[type="text"],
+  .toolbar select,
+  .toolbar button {
+    width: 100%;
+  }
+}
