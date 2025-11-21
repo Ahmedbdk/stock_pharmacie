@@ -29,7 +29,7 @@ $result = $conn->query($sql);
 <table border="1">
     <thead>
         <tr>
-            <th>Catégorie</th>
+            <th>Nom</th>
         </tr>
     </thead>
     <tbody>
