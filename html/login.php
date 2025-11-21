@@ -1,13 +1,17 @@
 <?php
 session_start();
 
-// 🔥 Si l'utilisateur est déjà connecté → on le redirige
+// 🔒 Si déjà connecté → redirection
 if (isset($_SESSION['user_id'])) {
     header("Location: dashboard.php");
     exit();
 }
-?>
 
+// 🚫 Empêcher la mise en cache
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+?>
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -19,26 +23,12 @@ if (isset($_SESSION['user_id'])) {
     <main class="login-container">
       <h1>Connexion</h1>
 
-      <!-- ENVOI DU FORMULAIRE VERS check_login.php -->
       <form id="formConnexion" action="check_login.php" method="POST">
         <label for="email">Email *</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Votre email"
-          required
-        />
+        <input type="email" id="email" name="email" required>
 
         <label for="password">Mot de passe *</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Votre mot de passe"
-          autocomplete="off"
-          required
-        />
+        <input type="password" id="password" name="password" required>
 
         <button type="submit">Se connecter</button>
       </form>
