@@ -1,22 +1,18 @@
 <?php
-// produits.php
-
-// 1️⃣ Connexion à la base de données
+// Connexion BDD
 $servername = "localhost";
-$username = "root";   // ton utilisateur MySQL
-$password = "";       // ton mot de passe MySQL
-$dbname = "pharmacie"; // ← nom correct de la base
+$username = "root";
+$password = "";
+$dbname = "pharmacie";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Vérification de la connexion
 if ($conn->connect_error) {
-    die("Connexion échouée: " . $conn->connect_error);
+    die("Connexion échouée : " . $conn->connect_error);
 }
 
-// 2️⃣ Récupération des produits Médical et Paramédical
-$sql = "SELECT * FROM produits 
-        WHERE categorie IN ('Médical', 'Paramédical')";
+// 🔥 Récupérer les catégories SANS DOUBLONS
+$sql = "SELECT DISTINCT categorie FROM produits";
 $result = $conn->query($sql);
 ?>
 
@@ -24,34 +20,32 @@ $result = $conn->query($sql);
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Gestion des Produits</title>
+  <title>Catégories</title>
 </head>
 <body>
-  <h1>Produits</h1>
 
-  <table border="1">
+<h1>Liste des Catégories</h1>
+
+<table border="1">
     <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Catégorie</th>
-      </tr>
+        <tr>
+            <th>Catégorie</th>
+        </tr>
     </thead>
     <tbody>
-      <?php
-      if ($result->num_rows > 0) {
-          while($row = $result->fetch_assoc()) {
-              echo "<tr>
-                      <td>".$row['nom']."</td>
-                      <td>".$row['categorie']."</td>
-                    </tr>";
-          }
-      } else {
-          echo "<tr><td colspan='6'>Aucun produit trouvé</td></tr>";
-      }
+        <?php
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<tr><td>".$row['categorie']."</td></tr>";
+            }
+        } else {
+            echo "<tr><td>Aucune catégorie trouvée</td></tr>";
+        }
 
-      $conn->close();
-      ?>
+        $conn->close();
+        ?>
     </tbody>
-  </table>
+</table>
+
 </body>
 </html>
